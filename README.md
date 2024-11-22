@@ -1,1 +1,1 @@
-# factorial-TI-Bicycle-Shop
+# Factorial TI Bicycle Shop
