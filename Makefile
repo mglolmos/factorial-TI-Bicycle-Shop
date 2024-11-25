@@ -20,7 +20,10 @@ shell :
 tail :
 	docker-compose logs -f php
 
-test : test-e2e
+test : test-unit test-e2e
+
+test-unit :
+	docker-compose exec php vendor/bin/phpunit tests/Unit
 
 test-e2e :
-	docker-compose exec php vendor/bin/phpunit tests/e2e
+	docker-compose exec php vendor/bin/phpunit tests/E2e
