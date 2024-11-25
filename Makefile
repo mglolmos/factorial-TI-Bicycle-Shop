@@ -1,5 +1,7 @@
 .PHONY: up
 
+up :  pull docker_up composer_install
+
 pull :
 	docker-compose pull
 
@@ -8,8 +10,6 @@ composer_install :
 
 docker_up :
 	docker-compose up -d
-
-up :  pull docker_up composer_install
 
 down :
 	docker-compose down
@@ -20,3 +20,7 @@ shell :
 tail :
 	docker-compose logs -f php
 
+test : test-e2e
+
+test-e2e :
+	docker-compose exec php vendor/bin/phpunit tests/e2e
