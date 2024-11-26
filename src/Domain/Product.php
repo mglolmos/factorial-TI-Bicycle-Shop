@@ -1,14 +1,16 @@
 <?php
 namespace App\Domain;
 
+use App\Domain\Utilities\Name;
+
 class Product {
     private $id;
 
-    private $name;
+    private Name $name;
 
     public function __construct($id, $name) {
         $this->setId($id);
-        $this->setName($name);
+        $this->name = new Name($name);
     }
 
     public function getId() {
@@ -16,7 +18,7 @@ class Product {
     }
 
     public function getName() {
-        return $this->name;
+        return $this->name->getName();
     }
 
     public function setId($id) {
@@ -26,10 +28,4 @@ class Product {
         $this->id = $id;
     }
 
-    public function setName($name) {
-        if (empty($name)) {
-            throw new ProductInvalidException();
-        }
-        $this->name = $name;
-    }
 }
