@@ -22,6 +22,12 @@ class Id {
         return new self(Uuid::uuid4()->toString());
     }
 
+    public static function generateToString(): string
+    {
+        return (new self(Uuid::uuid4()->toString()))->__toString();
+    }
+
+
     public function __toString(): string
     {
         return $this->uuid->toString();

@@ -1,6 +1,7 @@
 <?php
 namespace App\Tests\E2e;
 
+use App\Domain\Utilities\Id;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
@@ -18,29 +19,31 @@ class ProductTest extends TestCase
 
     public function testCreateAndGetProduct(): void
     {
+        $product_id = Id::generateToString();
+        $product_name = 'Product Test' . $product_id;
         $response = $this->client->post('http://nginx/product', [
             RequestOptions::FORM_PARAMS => [
-                    'product_id' => '1',
-                    'name' => 'Product Test'
+                'product_id' => $product_id,
+                'name' => $product_name
             ],
         ]);
 
         $this->assertEquals(201, $response->getStatusCode());
 
-        $queryParams = ['product_id' => '1'];
+        $queryParams = ['product_id' => $product_id];
         $response = $this->client->get('http://nginx/product', ['query' => $queryParams]);
         $this->assertEquals(200, $response->getStatusCode());
 
         $body = $response->getBody();
         $data = json_decode($body, true);
-        $this->assertEquals('1', $data['product_id']);
-        $this->assertEquals('Product Test', $data['name']);
+        $this->assertEquals($product_id, $data['product_id']);
+        $this->assertEquals($product_name, $data['name']);
     }
 
     public function testProductNotFoundShouldAnswer404(): void
     {
         try {
-            $queryParams = ['product_id' => '100'];
+            $queryParams = ['product_id' => Id::generateToString()];
             $this->client->get('http://nginx/product', ['query' => $queryParams]);
         } catch (RequestException $exception) {
             $this->assertEquals(404, $exception->getResponse()->getStatusCode());

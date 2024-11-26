@@ -33,6 +33,14 @@ class IdTest extends TestCase {
         $this->assertTrue(Uuid::isValid((string)$uuid));
     }
 
+    public function testGenerateToStringReturnsValidUuidString()
+    {
+        $uuidString = Id::generateToString();
+
+        $this->assertTrue(Uuid::isValid($uuidString));
+        $this->assertNotEmpty($uuidString);
+    }
+
     public function testEqualsMethod()
     {
         $uuid1 = new Id(Uuid::uuid4()->toString());
