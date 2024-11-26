@@ -52,8 +52,4 @@ class ProductTest extends TestCase
 
         $this->fail('Expected a 404 Not Found response, but the request was successful.');
     }
-
-
-
-
 }

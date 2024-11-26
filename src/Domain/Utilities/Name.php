@@ -22,7 +22,7 @@ class Name {
         $name_trimmed = trim($name);
         $length = strlen($name);
         if ($length < 3 || $length > 100) {
-            throw new NameInvalidException('Name is too short');
+            throw new NameInvalidException('Name must be between 3 and 100 characters');
         }
         $this->name = $name_trimmed;
     }
