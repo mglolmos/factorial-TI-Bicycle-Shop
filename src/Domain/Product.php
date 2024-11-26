@@ -9,16 +9,19 @@ class Product {
 
     private Name $name;
 
-    public function __construct($id, $name) {
+    public function __construct($id, $name)
+    {
         $this->id = new Id($id);
         $this->name = new Name($name);
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id->getValue();
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name->getName();
     }
 }

@@ -5,14 +5,17 @@ class Name {
 
     private string $name;
 
-    public function __construct(string $name) {
+    public function __construct(string $name)
+    {
         $this->setName($name);
     }
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
-    private function setName(string $name): void {
+    private function setName(string $name): void
+    {
         if (empty(trim($name))) {
             throw new NameInvalidException('Name cannot be empty');
         }

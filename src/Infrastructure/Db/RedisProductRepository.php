@@ -5,7 +5,8 @@ use App\Domain\Product;
 use App\Domain\ProductRepository;
 use Predis\Client;
 
-class RedisProductRepository implements ProductRepository {
+class RedisProductRepository implements ProductRepository
+{
 
     private $client;
     public function __construct()
