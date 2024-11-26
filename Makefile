@@ -20,6 +20,9 @@ shell :
 tail :
 	docker-compose logs -f php
 
+rediscli:
+	docker exec -it redis-container redis-cli
+
 test : test-unit test-e2e
 
 test-unit :
