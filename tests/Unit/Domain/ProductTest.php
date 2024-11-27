@@ -3,6 +3,7 @@ namespace Tests\Unit\Domain;
 
 use App\Domain\Collection;
 use App\Domain\Component;
+use App\Domain\ComponentInvalidException;
 use App\Domain\Product;
 use App\Domain\Utilities\Name;
 use App\Domain\Utilities\Uuid;
@@ -38,6 +39,7 @@ class ProductTest extends TestCase
         $collection = new Collection('Sample Collection');
         $component = new Component('Sample Component', 100);
 
+        $product->addCollection($collection);
         $product->addComponent($collection->getId(), $component);
 
         $this->assertEquals('Sample Component', $product->getComponentName($collection->getId(), $component->getId()));
@@ -45,6 +47,13 @@ class ProductTest extends TestCase
         $this->assertTrue($product->isComponentInStock($collection->getId(), $component->getId()));
     }
 
-    
+    public function testAddComponentWithoutCollectionShouldThrowException()
+    {
+        $this->expectException(ComponentInvalidException::class);
 
+        $product = new Product('550e8400-e29b-41d4-a716-446655440000', 'Sample Product');
+        $component = new Component('Sample Component', 100);
+
+        $product->addComponent('collection_not_exists_id', $component);
+    }
 }

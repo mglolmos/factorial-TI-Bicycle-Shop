@@ -41,6 +41,9 @@ class Product {
     }
 
     public function addComponent($collection_id, Component $component) {
+        if (!array_key_exists($collection_id, $this->collections)) {
+            throw new ComponentInvalidException("Collection '$collection_id' does not exist");
+        }
         $this->components[$collection_id][$component->getId()] = $component;
     }
 

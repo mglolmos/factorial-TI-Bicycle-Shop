@@ -72,7 +72,7 @@ class ProductTest extends TestCase
         $this->assertEquals($collection_name, self::getOutputFromResponse($response, 'collection_name') );
     }
 
-    public function testTestAndGetComponent(): void
+    public function testGetAndGetComponent(): void
     {
         $product_id = $this->createProduct();
         $collection_id = $this->addCollection($product_id, 'Collection Test');
