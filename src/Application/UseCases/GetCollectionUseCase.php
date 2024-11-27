@@ -22,9 +22,6 @@ class GetCollectionUseCase
     public function getCollection(GetCollectionRequest $request)
     {
         $product = $this->productRepository->get($request->product_id);
-        if (false === $product) {
-            throw new ProductNotFoundException();
-        }
 
         $collection_name = $product->getCollectionName($request->collection_id);
 

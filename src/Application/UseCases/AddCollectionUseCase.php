@@ -18,9 +18,6 @@ class AddCollectionUseCase {
     {
         $collection = new Collection($request->collection_name);
         $product = $this->productRepository->get($request->product_id);
-        if (false === $product) {
-            throw new ProductNotFoundException();
-        }
         $product->addCollection($collection);
         $this->productRepository->persist($product);
         return new AddCollectionResponse($product->getId(), $collection->getId(), $collection->getName());

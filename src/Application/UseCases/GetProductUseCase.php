@@ -22,9 +22,6 @@ class GetProductUseCase
     public function getProduct(GetProductRequest $request)
     {
         $product = $this->productRepository->get($request->product_id);
-        if (false === $product) {
-            throw new ProductNotFoundException();
-        }
         return new GetProductResponse($product->getId(), $product->getName());
     }
 
