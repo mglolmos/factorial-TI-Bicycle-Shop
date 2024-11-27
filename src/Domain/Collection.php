@@ -1,18 +1,18 @@
 <?php
 namespace App\Domain;
 
-use App\Domain\Utilities\IdString;
+use App\Domain\Utilities\Id;
 use App\Domain\Utilities\Name;
 
 class Collection
 {
-    private IdString $id;
+    private Id $id;
 
     private Name $name;
 
     public function __construct(string $name) {
         $this->name = new Name($name);
-        $this->id = new IdString($this->name->getName());
+        $this->id = new Id($this->name->getName());
     }
 
     public function getId(): string {

@@ -1,7 +1,7 @@
 <?php
 namespace App\Tests\E2e;
 
-use App\Domain\Utilities\Id;
+use App\Domain\Utilities\Uuid;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
@@ -19,7 +19,7 @@ class ProductTest extends TestCase
 
     public function testCreateAndGetProduct(): void
     {
-        $product_id = Id::generateToString();
+        $product_id = Uuid::generateToString();
         $product_name = 'Product Test' . $product_id;
         $response = $this->client->post('http://nginx/product', [
             RequestOptions::FORM_PARAMS => [
@@ -40,7 +40,7 @@ class ProductTest extends TestCase
     public function testProductNotFoundShouldAnswer404(): void
     {
         try {
-            $product_id = Id::generateToString();
+            $product_id = Uuid::generateToString();
             $this->client->get('http://nginx/product/' . $product_id);
         } catch (RequestException $exception) {
             $this->assertEquals(404, $exception->getResponse()->getStatusCode());
@@ -74,7 +74,7 @@ class ProductTest extends TestCase
 
     private function createProduct()
     {
-        $product_id = Id::generateToString();
+        $product_id = Uuid::generateToString();
         $product_name = 'Product Test' . $product_id;
         $this->client->post('http://nginx/product', [
             RequestOptions::FORM_PARAMS => [

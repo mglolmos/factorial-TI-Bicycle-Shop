@@ -1,46 +1,45 @@
 <?php
 namespace App\Domain\Utilities;
 
-use Ramsey\Uuid\UuidInterface;
-use Ramsey\Uuid\Uuid;
 
 class Id {
 
-    private UuidInterface $uuid;
+    private string $id;
 
-    public function __construct(string $uuid)
+    public function __construct(string $id)
     {
-        if (!Uuid::isValid($uuid)) {
-            throw new IdInvalidException("Invalid UUID provided: $uuid");
-        }
-
-        $this->uuid = Uuid::fromString($uuid);
+        $this->setId($id);
     }
 
-    public static function generate(): self
+    public static function generate($id): self
     {
-        return new self(Uuid::uuid4()->toString());
+        return new self($id);
     }
-
-    public static function generateToString(): string
-    {
-        return (new self(Uuid::uuid4()->toString()))->__toString();
-    }
-
 
     public function __toString(): string
     {
-        return $this->uuid->toString();
+        return $this->id;
     }
 
     public function equals(Id $other): bool
     {
-        return $this->uuid->equals($other->uuid);
+        return $this->id == $other->id;
     }
 
-    public function getValue(): UuidInterface
+    public function getValue(): string
     {
-        return $this->uuid;
+        return $this->id;
+    }
+
+    private function setId(string $id): void
+    {
+        $id = strtolower($id);
+        $id = str_replace(' ', '_', $id);
+        $id = preg_replace('/[^a-z0-9_]/', '', $id);
+        $id = preg_replace('/_+/', '_', $id);
+        $id = trim($id, '_');
+
+        $this->id = $id;
     }
 
 }

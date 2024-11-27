@@ -1,55 +1,95 @@
 <?php
 namespace App\Tests\Unit\Domain\Utilities;
 
-
 use App\Domain\Utilities\Id;
-use App\Domain\Utilities\IdInvalidException;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 
 class IdTest extends TestCase {
 
-    public function testValidUuidCreation()
+    public function testValidIdCreation()
     {
-        $uuidString = Uuid::uuid4()->toString();
-        $uuid = new Id($uuidString);
+        $id = new Id('this is a string');
 
-        $this->assertEquals($uuidString, (string)$uuid);
-    }
-
-    public function testInvalidUuidThrowsException()
-    {
-        $this->expectException(IdInvalidException::class);
-        $this->expectExceptionMessage("Invalid UUID provided: invalid-uuid");
-
-        new Id("invalid-uuid");
+        $this->assertEquals('this_is_a_string', $id->getValue());
     }
 
     public function testGenerateCreatesValidUuid()
     {
-        $uuid = Id::generate();
-
-        $this->assertInstanceOf(Id::class, $uuid);
-        $this->assertTrue(Uuid::isValid((string)$uuid));
+        $id = Id::generate('this is a string');
+        $this->assertEquals('this_is_a_string', $id->getValue());
     }
 
-    public function testGenerateToStringReturnsValidUuidString()
-    {
-        $uuidString = Id::generateToString();
-
-        $this->assertTrue(Uuid::isValid($uuidString));
-        $this->assertNotEmpty($uuidString);
-    }
 
     public function testEqualsMethod()
     {
-        $uuid1 = new Id(Uuid::uuid4()->toString());
-        $uuid2 = new Id((string)$uuid1);
+        $id1 = new Id('this is a string');
+        $id2 = new Id((string)$id1);
 
-        $this->assertTrue($uuid1->equals($uuid2));
+        $this->assertTrue($id1->equals($id2));
 
-        $uuid3 = Id::generate();
-        $this->assertFalse($uuid1->equals($uuid3));
+        $id3 = Id::generate('this is another string');
+        $this->assertFalse($id1->equals($id3));
     }
+
+    public function testSimpleString()
+    {
+        $input = "Hello World";
+        $expected = "hello_world";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testStringWithSpecialCharacters()
+    {
+        $input = "PHP is Awesome!";
+        $expected = "php_is_awesome";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testStringWithNumbers()
+    {
+        $input = "2024 - New Year!";
+        $expected = "2024_new_year";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testStringWithExtraSpaces()
+    {
+        $input = "   Special   @ Characters # Test   ";
+        $expected = "special_characters_test";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testStringWithOnlySpecialCharacters()
+    {
+        $input = "!@#$%^&*()";
+        $expected = "";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testEmptyString()
+    {
+        $input = "";
+        $expected = "";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testStringWithMultipleSpaces()
+    {
+        $input = "   Hello    World   ";
+        $expected = "hello_world";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+    public function testStringWithUnderscores()
+    {
+        $input = "Hello__World";
+        $expected = "hello_world";
+        $this->assertEquals($expected, (new Id($input))->getValue());
+    }
+
+
+
+
+
 
 }
