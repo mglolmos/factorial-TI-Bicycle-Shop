@@ -9,9 +9,7 @@ class Product {
 
     private Name $name;
 
-    private $collections = [];
-
-    private $components = [];
+    private array $collections = [];
 
     public function __construct($id, $name)
     {
@@ -41,25 +39,35 @@ class Product {
     }
 
     public function addComponent($collection_id, Component $component) {
-        if (!array_key_exists($collection_id, $this->collections)) {
-            throw new ComponentInvalidException("Collection '$collection_id' does not exist");
-        }
-        $this->components[$collection_id][$component->getId()] = $component;
+        $this->checkCollectionExists($collection_id);
+        $this->collections[$collection_id]->addComponent($component);
     }
 
     public function getComponentName($collection_id, $component_id): string
     {
-        return $this->components[$collection_id][$component_id]->getName();
+        $this->checkCollectionExists($collection_id);
+        return $this->collections[$collection_id]->getComponentName($component_id);
     }
 
     public function getComponentPrice($collection_id, $component_id): string
     {
-        return $this->components[$collection_id][$component_id]->getPrice();
+        $this->checkCollectionExists($collection_id);
+        return $this->collections[$collection_id]->getComponentPrice($component_id);
     }
 
     public function isComponentInStock($collection_id, $component_id): bool
     {
-        return $this->components[$collection_id][$component_id]->isInStock();
+        $this->checkCollectionExists($collection_id);
+        return $this->collections[$collection_id]->isComponentInStock($component_id);
+    }
+
+
+    private function checkCollectionExists($collection_id)
+    {
+        if (!array_key_exists($collection_id, $this->collections)) {
+            throw new ComponentInvalidException("Collection '$collection_id' does not exist");
+        }
+
     }
 
 }
