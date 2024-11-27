@@ -72,6 +72,34 @@ class ProductTest extends TestCase
         $this->assertEquals($collection_name, self::getOutputFromResponse($response, 'collection_name') );
     }
 
+    public function testTestAndGetComponent(): void
+    {
+        $product_id = $this->createProduct();
+        $collection_id = $this->addCollection($product_id, 'Collection Test');
+        $component_name = 'Component name';
+        $component_price = 100;
+
+        $response = $this->client->post('http://nginx/product/' . $product_id . '/collection/' . $collection_id . '/component', [
+            RequestOptions::FORM_PARAMS => [
+                'name' => $component_name,
+                'price' => $component_price
+            ],
+        ]);
+
+        $this->assertEquals(201, $response->getStatusCode());
+        $this->assertEquals($product_id, self::getOutputFromResponse($response, 'product_id'));
+        $this->assertEquals('component_name', self::getOutputFromResponse($response, 'component_id') );
+        $this->assertEquals($component_name, self::getOutputFromResponse($response, 'component_name') );
+
+        $component_id = self::getOutputFromResponse($response, 'component_id');
+
+        $response = $this->client->get('http://nginx/product/' . $product_id . '/collection/' . $collection_id . '/component/' . $component_id);
+        $this->assertEquals($component_id, self::getOutputFromResponse($response, 'component_id') );
+        $this->assertEquals($component_name, self::getOutputFromResponse($response, 'component_name') );
+        $this->assertEquals($component_price, self::getOutputFromResponse($response, 'component_price') );
+        $this->assertEquals(true, self::getOutputFromResponse($response, 'component_is_in_stock') );
+    }
+
     private function createProduct()
     {
         $product_id = Uuid::generateToString();
@@ -83,12 +111,23 @@ class ProductTest extends TestCase
             ],
         ]);
 
-
         $response = $this->client->get('http://nginx/product/'. $product_id);
 
-        $body = $response->getBody();
-        $data = json_decode($body, true);
-        return $data['product_id'];
+        return self::getOutputFromResponse($response, 'product_id');
+    }
+
+    private function addCollection($product_id, $collection_name)
+    {
+        $response = $this->client->post('http://nginx/product/' . $product_id . '/collection', [
+            RequestOptions::FORM_PARAMS => [
+                'name' => $collection_name
+            ],
+        ]);
+
+        $collection_id = self::getOutputFromResponse($response, 'collection_id');
+        $response = $this->client->get('http://nginx/product/' . $product_id . '/collection/' . $collection_id);
+
+        return self::getOutputFromResponse($response, 'collection_id');
     }
 
     private static function getOutputFromResponse($response, $key)

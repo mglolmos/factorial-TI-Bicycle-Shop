@@ -11,6 +11,8 @@ class Product {
 
     private $collections = [];
 
+    private $components = [];
+
     public function __construct($id, $name)
     {
         $this->id = new Uuid($id);
@@ -36,6 +38,25 @@ class Product {
     public function getCollectionName($collection_id): string
     {
         return $this->collections[$collection_id]->getName();
+    }
+
+    public function addComponent($collection_id, Component $component) {
+        $this->components[$collection_id][$component->getId()] = $component;
+    }
+
+    public function getComponentName($collection_id, $component_id): string
+    {
+        return $this->components[$collection_id][$component_id]->getName();
+    }
+
+    public function getComponentPrice($collection_id, $component_id): string
+    {
+        return $this->components[$collection_id][$component_id]->getPrice();
+    }
+
+    public function isComponentInStock($collection_id, $component_id): bool
+    {
+        return $this->components[$collection_id][$component_id]->isInStock();
     }
 
 }
