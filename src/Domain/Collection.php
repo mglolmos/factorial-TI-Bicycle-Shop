@@ -37,6 +37,9 @@ class Collection
         $this->components[$component->getId()->getValue()] = $component;
     }
 
+    /**
+     * @throws ComponentInvalidException
+     */
     public function getComponent(Id $component_id): Component
     {
         $this->checkComponentExists($component_id);

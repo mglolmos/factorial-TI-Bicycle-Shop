@@ -51,6 +51,10 @@ class Product {
         $this->collections[$collection_id->getValue()]->addComponent($component);
     }
 
+    /**
+     * @throws CollectionInvalidException
+     * @throws ComponentInvalidException
+     */
     public function getComponent(Id $collection_id, Id $component_id): Component
     {
         $this->checkCollectionExists($collection_id);

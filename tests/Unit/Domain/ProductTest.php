@@ -2,6 +2,7 @@
 namespace Tests\Unit\Domain;
 
 use App\Domain\Collection;
+use App\Domain\CollectionInvalidException;
 use App\Domain\Component;
 use App\Domain\ComponentInvalidException;
 use App\Domain\Product;
@@ -51,7 +52,7 @@ class ProductTest extends TestCase
 
     public function testAddComponentWithoutCollectionShouldThrowException()
     {
-        $this->expectException(ComponentInvalidException::class);
+        $this->expectException(CollectionInvalidException::class);
 
         $product = new Product(new Uuid('550e8400-e29b-41d4-a716-446655440000'), new Name('Sample Product'));
         $component = new Component(new Name('Sample Component'), Price::fromInt(100));

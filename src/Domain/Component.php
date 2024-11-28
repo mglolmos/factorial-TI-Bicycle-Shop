@@ -53,8 +53,26 @@ class Component
     }
 
     public function addIncompatibleComponent(Id $collection_id, Id $component_id) {
-        $key = $collection_id->getValue() . '_' . $component_id->getValue();
+        if ($this->id == $component_id) {
+            throw new ComponentInvalidException("Component '{$component_id}' can not be incompatible with itself.");
+        }
+
+        $key = $this->getIncompatibleKey($collection_id, $component_id);
         $this->incompatibleComponents[$key] = array($collection_id, $component_id);
+    }
+
+    public function isCompatibleWith(Id $collection_id, Id $component_id)
+    {
+        $key = $this->getIncompatibleKey($collection_id, $component_id);
+        if (array_key_exists($key, $this->incompatibleComponents)) {
+            return false;
+        }
+        return true;
+    }
+
+    private function getIncompatibleKey(Id $collection_id, Id $component_id): string
+    {
+        return $collection_id->getValue() . '_' . $component_id->getValue();
     }
 
     public function getIncompatibleComponents(): array {
