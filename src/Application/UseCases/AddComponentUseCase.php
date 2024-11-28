@@ -7,6 +7,7 @@ use App\Domain\ProductRepository;
 use App\Domain\Utilities\Id;
 use App\Domain\Utilities\Name;
 use App\Domain\Utilities\Price;
+use App\Domain\Utilities\Uuid;
 
 class AddComponentUseCase {
 
@@ -19,7 +20,7 @@ class AddComponentUseCase {
     public function addComponent(AddComponentRequest $request)
     {
         $component = new Component(new Name($request->component_name), Price::fromString($request->component_price));
-        $product = $this->productRepository->get($request->product_id);
+        $product = $this->productRepository->get(new Uuid($request->product_id));
         $product->addComponent(new Id($request->collection_id), $component);
 
         $this->productRepository->persist($product);

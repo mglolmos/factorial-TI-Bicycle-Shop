@@ -4,6 +4,7 @@ namespace App\Infrastructure\Db;
 use App\Domain\Product;
 use App\Domain\ProductNotFoundException;
 use App\Domain\ProductRepository;
+use App\Domain\Utilities\Uuid;
 use Predis\Client;
 
 class RedisProductRepository implements ProductRepository
@@ -22,9 +23,9 @@ class RedisProductRepository implements ProductRepository
 
     }
 
-    public function get($product_id): Product
+    public function get(Uuid $product_id): Product
     {
-        $response = unserialize($this->client->get(self::PREFIX . $product_id));
+        $response = unserialize($this->client->get(self::PREFIX . $product_id->getValue()));
         if (false === $response) {
             throw new ProductNotFoundException();
         }
@@ -34,6 +35,6 @@ class RedisProductRepository implements ProductRepository
 
     public function persist(Product $product)
     {
-        $this->client->set(self::PREFIX . $product->getId(), serialize($product));
+        $this->client->set(self::PREFIX . $product->getId()->getValue(), serialize($product));
     }
 }

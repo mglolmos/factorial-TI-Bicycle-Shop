@@ -5,6 +5,7 @@ use App\Domain\Product;
 use App\Domain\ProductNotFoundException;
 use App\Domain\ProductRepository;
 use App\Domain\Utilities\Id;
+use App\Domain\Utilities\Uuid;
 
 class GetComponentUseCase
 {
@@ -22,7 +23,7 @@ class GetComponentUseCase
      */
     public function getComponent(GetComponentRequest $request)
     {
-        $product = $this->productRepository->get($request->product_id);
+        $product = $this->productRepository->get(new Uuid($request->product_id));
         $collection_id = new Id($request->collection_id);
         $component_id = new Id($request->component_id);
 

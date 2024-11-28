@@ -4,6 +4,7 @@ namespace App\Application\UseCases;
 use App\Domain\Product;
 use App\Domain\ProductNotFoundException;
 use App\Domain\ProductRepository;
+use App\Domain\Utilities\Uuid;
 
 class GetProductUseCase
 {
@@ -21,7 +22,7 @@ class GetProductUseCase
      */
     public function getProduct(GetProductRequest $request)
     {
-        $product = $this->productRepository->get($request->product_id);
+        $product = $this->productRepository->get(new Uuid($request->product_id));
         return new GetProductResponse($product->getId()->getValue(), $product->getName()->getNameValue());
     }
 

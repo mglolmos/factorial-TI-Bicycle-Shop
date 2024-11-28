@@ -4,6 +4,7 @@ namespace App\Application\UseCases;
 use App\Domain\Collection;
 use App\Domain\ProductRepository;
 use App\Domain\Utilities\Name;
+use App\Domain\Utilities\Uuid;
 
 class AddCollectionUseCase {
 
@@ -16,7 +17,7 @@ class AddCollectionUseCase {
     public function addCollection(AddCollectionRequest $request)
     {
         $collection = new Collection(new Name($request->collection_name));
-        $product = $this->productRepository->get($request->product_id);
+        $product = $this->productRepository->get(new Uuid($request->product_id));
         $product->addCollection($collection);
 
         $this->productRepository->persist($product);
