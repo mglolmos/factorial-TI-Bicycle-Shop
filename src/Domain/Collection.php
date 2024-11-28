@@ -37,6 +37,15 @@ class Collection
         $this->components[$component->getId()->getValue()] = $component;
     }
 
+    public function getComponent(Id $componentId): Component
+    {
+        return $this->components[$componentId->getValue()];
+    }
+
+    public function addIncompatibleComponent(Id $component_id, Id $collection_id2, Id $component_id2): void
+    {
+        $this->components[$component_id->getValue()]->addIncompatibleComponent($collection_id2, $component_id2);
+    }
     public function getComponentName(Id $componentId): Name
     {
         return $this->components[$componentId->getValue()]->getName();

@@ -14,6 +14,11 @@ class Component
 
     private bool $is_in_stock;
 
+    /**
+     * @var Id[]
+     */
+    private array $incompatibleComponents = [];
+
     public function __construct(Name $name, Price $price) {
         $this->name = $name;
         $this->id = new Id($this->name->getNameValue());
@@ -35,5 +40,14 @@ class Component
 
     public function isInStock(): bool {
         return $this->is_in_stock;
+    }
+
+    public function addIncompatibleComponent(Id $collection_id, Id $component_id) {
+        $key = $collection_id->getValue() . '_' . $component_id->getValue();
+        $this->incompatibleComponents[$key] = array($collection_id, $component_id);
+    }
+
+    public function getIncompatibleComponents(): array {
+        return $this->incompatibleComponents;
     }
 }

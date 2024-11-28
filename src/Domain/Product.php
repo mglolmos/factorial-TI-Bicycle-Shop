@@ -16,7 +16,6 @@ class Product {
      */
     private array $collections = [];
 
-//    private array $restrictions = [];
 
     public function __construct(Uuid $id, Name $name)
     {
@@ -50,6 +49,11 @@ class Product {
         $this->collections[$collection_id->getValue()]->addComponent($component);
     }
 
+    public function getComponent(Id $collection_id, Id $component_id): Component
+    {
+        $this->checkCollectionExists($collection_id);
+        return $this->collections[$collection_id->getValue()]->getComponent($component_id);
+    }
     public function getComponentName(Id $collection_id, Id $component_id): Name
     {
         $this->checkCollectionExists($collection_id);
@@ -61,16 +65,17 @@ class Product {
         return $this->collections[$collection_id->getValue()]->isComponentInStock($component_id);
     }
 
-
-//    public function addRestriction(Id $component_id1, Id $component_id2)
-//    {
-//        $this->restrictions[$component_id1->getValue()] = $component_id2->getValue();
-//    }
-
     public function getComponentPrice(Id $collection_id, Id $component_id): Price
     {
         $this->checkCollectionExists($collection_id);
         return $this->collections[$collection_id->getValue()]->getComponentPrice($component_id);
+    }
+
+    public function addIncompatibleComponent(Id $collection_id1, Id $component_id1, Id $collection_id2, Id $component_id2)
+    {
+        $this->checkCollectionExists($collection_id1);
+        $this->checkCollectionExists($collection_id2);
+        $this->collections[$collection_id1->getValue()]->addIncompatibleComponent($component_id1, $collection_id2, $component_id2);
     }
 
     private function checkCollectionExists(Id $collection_id)
