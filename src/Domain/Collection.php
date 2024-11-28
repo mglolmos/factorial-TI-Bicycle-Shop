@@ -60,4 +60,14 @@ class Collection
     {
         return $this->components[$componentId->getValue()]->isInStock();
     }
+
+    public function markComponentIsInStock(Id $componentId)
+    {
+        $this->components[$componentId->getValue()]->markIsInStock();
+    }
+
+    public function markComponentIsOutOfStock(Id $componentId)
+    {
+        $this->components[$componentId->getValue()]->markIsOutOfStock();
+    }
 }

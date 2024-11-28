@@ -42,6 +42,16 @@ class Component
         return $this->is_in_stock;
     }
 
+    public function markIsInStock()
+    {
+        $this->is_in_stock = true;
+    }
+
+    public function markIsOutOfStock()
+    {
+        $this->is_in_stock = false;
+    }
+
     public function addIncompatibleComponent(Id $collection_id, Id $component_id) {
         $key = $collection_id->getValue() . '_' . $component_id->getValue();
         $this->incompatibleComponents[$key] = array($collection_id, $component_id);

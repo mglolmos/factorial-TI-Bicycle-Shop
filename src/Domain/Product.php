@@ -65,6 +65,18 @@ class Product {
         return $this->collections[$collection_id->getValue()]->isComponentInStock($component_id);
     }
 
+    public function markComponentIsInStock(Id $collection_id, Id $component_id)
+    {
+        $this->checkCollectionExists($collection_id);
+        $this->collections[$collection_id->getValue()]->markComponentIsInStock($component_id);
+    }
+
+    public function markComponentIsOutOfStock(Id $collection_id, Id $component_id)
+    {
+        $this->checkCollectionExists($collection_id);
+        $this->collections[$collection_id->getValue()]->markComponentIsOutOfStock($component_id);
+    }
+
     public function getComponentPrice(Id $collection_id, Id $component_id): Price
     {
         $this->checkCollectionExists($collection_id);
