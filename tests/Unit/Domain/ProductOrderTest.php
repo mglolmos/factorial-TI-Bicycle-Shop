@@ -106,7 +106,6 @@ class ProductOrderTest extends TestCase
     {
         // Arrange
         $product = $this->createMock(Product::class);
-        $component = $this->createMock(Component::class);
 
         // Mocking product methods to throw exceptions
         $product->method('getComponent')

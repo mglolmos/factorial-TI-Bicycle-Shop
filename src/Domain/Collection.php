@@ -49,6 +49,10 @@ class Collection
     public function addIncompatibleComponent(Id $component_id, Id $collection_id2, Id $component_id2): void
     {
         $this->checkComponentExists($component_id);
+        if ($this->areTheySameComponents($this->id, $component_id, $collection_id2, $component_id2)) {
+            throw new ComponentInvalidException("Component collection: '{$this->id}' with component: '{$component_id}' can not be incompatible with itself.");
+        }
+
         $this->components[$component_id->getValue()]->addIncompatibleComponent($collection_id2, $component_id2);
     }
 
@@ -89,5 +93,15 @@ class Collection
         if (!array_key_exists($component_id->getValue(), $this->components)) {
             throw new ComponentInvalidException("Component '$component_id' does not exist");
         }
+    }
+
+    private function areTheySameComponents(Id $collection_id1, Id $component_id, Id $collection_id2, Id $component_id2) {
+        if (
+            $collection_id1->getValue() === $collection_id2->getValue()
+            && $component_id->getValue() === $component_id2->getValue()
+        ){
+            return true;
+        }
+        return false;
     }
 }

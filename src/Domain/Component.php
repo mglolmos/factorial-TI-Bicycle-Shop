@@ -53,10 +53,6 @@ class Component
     }
 
     public function addIncompatibleComponent(Id $collection_id, Id $component_id) {
-        if ($this->id == $component_id) {
-            throw new ComponentInvalidException("Component '{$component_id}' can not be incompatible with itself.");
-        }
-
         $key = $this->getIncompatibleKey($collection_id, $component_id);
         $this->incompatibleComponents[$key] = array($collection_id, $component_id);
     }
