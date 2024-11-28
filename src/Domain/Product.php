@@ -41,10 +41,12 @@ class Product {
 
     public function getCollectionName(Id $collection_id): Name
     {
+        $this->checkCollectionExists($collection_id);
         return $this->collections[$collection_id->getValue()]->getName();
     }
 
-    public function addComponent(Id $collection_id, Component $component) {
+    public function addComponent(Id $collection_id, Component $component)
+    {
         $this->checkCollectionExists($collection_id);
         $this->collections[$collection_id->getValue()]->addComponent($component);
     }

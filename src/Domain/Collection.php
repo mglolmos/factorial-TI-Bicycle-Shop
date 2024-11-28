@@ -11,7 +11,7 @@ class Collection
 
     private Name $name;
     /**
-     * @var Component[]  // PHPDoc para indicar que es un array de objetos Collection
+     * @var Component[]
      */
     private $components = [];
 
@@ -37,37 +37,54 @@ class Collection
         $this->components[$component->getId()->getValue()] = $component;
     }
 
-    public function getComponent(Id $componentId): Component
+    public function getComponent(Id $component_id): Component
     {
-        return $this->components[$componentId->getValue()];
+        $this->checkComponentExists($component_id);
+        return $this->components[$component_id->getValue()];
     }
 
     public function addIncompatibleComponent(Id $component_id, Id $collection_id2, Id $component_id2): void
     {
+        $this->checkComponentExists($component_id);
         $this->components[$component_id->getValue()]->addIncompatibleComponent($collection_id2, $component_id2);
     }
-    public function getComponentName(Id $componentId): Name
+
+
+    public function getComponentName(Id $component_id): Name
     {
-        return $this->components[$componentId->getValue()]->getName();
+        $this->checkComponentExists($component_id);
+        return $this->components[$component_id->getValue()]->getName();
     }
 
-    public function getComponentPrice(Id $componentId): Price
+    public function getComponentPrice(Id $component_id): Price
     {
-        return $this->components[$componentId->getValue()]->getPrice();
+        $this->checkComponentExists($component_id);
+        return $this->components[$component_id->getValue()]->getPrice();
     }
 
-    public function isComponentInStock(Id $componentId): bool
+    public function isComponentInStock(Id $component_id): bool
     {
-        return $this->components[$componentId->getValue()]->isInStock();
+        $this->checkComponentExists($component_id);
+        return $this->components[$component_id->getValue()]->isInStock();
     }
 
-    public function markComponentIsInStock(Id $componentId)
+    public function markComponentIsInStock(Id $component_id): void
     {
-        $this->components[$componentId->getValue()]->markIsInStock();
+        $this->checkComponentExists($component_id);
+        $this->components[$component_id->getValue()]->markIsInStock();
     }
 
-    public function markComponentIsOutOfStock(Id $componentId)
+    public function markComponentIsOutOfStock(Id $component_id): void
     {
-        $this->components[$componentId->getValue()]->markIsOutOfStock();
+        $this->checkComponentExists($component_id);
+        $this->components[$component_id->getValue()]->markIsOutOfStock();
+    }
+
+
+    private function checkComponentExists(Id $component_id): void
+    {
+        if (!array_key_exists($component_id->getValue(), $this->components)) {
+            throw new ComponentInvalidException("Component '$component_id' does not exist");
+        }
     }
 }
