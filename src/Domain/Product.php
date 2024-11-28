@@ -95,7 +95,7 @@ class Product {
     private function checkCollectionExists(Id $collection_id)
     {
         if (!array_key_exists($collection_id->getValue(), $this->collections)) {
-            throw new ComponentInvalidException("Collection '$collection_id' does not exist");
+            throw new CollectionInvalidException("Collection '$collection_id' does not exist");
         }
 
     }
