@@ -3,6 +3,7 @@ namespace App\Application\UseCases;
 
 use App\Domain\Collection;
 use App\Domain\ProductRepository;
+use App\Domain\Utilities\Name;
 
 class AddCollectionUseCase {
 
@@ -14,13 +15,13 @@ class AddCollectionUseCase {
 
     public function addCollection(AddCollectionRequest $request)
     {
-        $collection = new Collection($request->collection_name);
+        $collection = new Collection(new Name($request->collection_name));
         $product = $this->productRepository->get($request->product_id);
         $product->addCollection($collection);
 
         $this->productRepository->persist($product);
 
-        return new AddCollectionResponse($product->getId(), $collection->getId(), $collection->getName());
+        return new AddCollectionResponse($product->getId()->getValue(), $collection->getId()->getValue(), $collection->getName()->getNameValue());
     }
 
 }

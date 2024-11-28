@@ -4,6 +4,7 @@ namespace App\Application\UseCases;
 use App\Domain\Product;
 use App\Domain\ProductNotFoundException;
 use App\Domain\ProductRepository;
+use App\Domain\Utilities\Id;
 
 class GetCollectionUseCase
 {
@@ -23,8 +24,8 @@ class GetCollectionUseCase
     {
         $product = $this->productRepository->get($request->product_id);
 
-        $collection_name = $product->getCollectionName($request->collection_id);
+        $collection_name = $product->getCollectionName(new Id($request->collection_id));
 
-        return new GetCollectionResponse($product->getId(), $request->collection_id, $collection_name);
+        return new GetCollectionResponse($product->getId()->getValue(), $request->collection_id, $collection_name->getNameValue());
     }
 }

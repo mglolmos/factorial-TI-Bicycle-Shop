@@ -22,7 +22,7 @@ class GetProductUseCase
     public function getProduct(GetProductRequest $request)
     {
         $product = $this->productRepository->get($request->product_id);
-        return new GetProductResponse($product->getId(), $product->getName());
+        return new GetProductResponse($product->getId()->getValue(), $product->getName()->getNameValue());
     }
 
 

@@ -12,7 +12,7 @@ class NameTest extends TestCase {
     {
         $correct_name = "This is a correct name";
         $name_value_object = new Name($correct_name);
-        $this->assertEquals($correct_name, $name_value_object->getName());
+        $this->assertEquals($correct_name, $name_value_object->getNameValue());
     }
 
     public function testNameWithEmptyNameShouldThrowException()
@@ -31,7 +31,7 @@ class NameTest extends TestCase {
     {
         $name = "  name without trimmed  ";
         $output_name = new Name($name);
-        $this->assertEquals("name without trimmed", $output_name->getName());
+        $this->assertEquals("name without trimmed", $output_name->getNameValue());
     }
 
     public function testNameMustHaveAtLeast3Characters()

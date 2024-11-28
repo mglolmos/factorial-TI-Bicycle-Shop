@@ -17,6 +17,11 @@ class Uuid {
         $this->uuid = RamseyUuid::fromString($uuid);
     }
 
+    public static function fromString(string $uuid): self
+    {
+        return new self($uuid);
+    }
+
     public static function generate(): self
     {
         return new self(RamseyUuid::uuid4()->toString());

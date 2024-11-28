@@ -4,6 +4,7 @@ namespace App\Application\UseCases;
 use App\Domain\Product;
 use App\Domain\ProductNotFoundException;
 use App\Domain\ProductRepository;
+use App\Domain\Utilities\Id;
 
 class GetComponentUseCase
 {
@@ -22,12 +23,21 @@ class GetComponentUseCase
     public function getComponent(GetComponentRequest $request)
     {
         $product = $this->productRepository->get($request->product_id);
+        $collection_id = new Id($request->collection_id);
+        $component_id = new Id($request->component_id);
 
-        $component_name = $product->getComponentName($request->collection_id, $request->component_id);
-        $component_price = $product->getComponentPrice($request->collection_id, $request->component_id);
-        $component_is_in_stock = $product->isComponentInStock($request->collection_id, $request->component_id);
+        $component_name = $product->getComponentName($collection_id, $component_id);
+        $component_price = $product->getComponentPrice($collection_id, $component_id);
+        $component_is_in_stock = $product->isComponentInStock($collection_id, $component_id);
 
 
-        return new GetComponentResponse($product->getId(), $request->collection_id, $request->component_id, $component_name, $component_price, $component_is_in_stock);
+        return new GetComponentResponse(
+            $product->getId()->getValue(),
+            $request->collection_id,
+            $request->component_id,
+            $component_name->getNameValue(),
+            $component_price->getValue(),
+            $component_is_in_stock
+        );
     }
 }

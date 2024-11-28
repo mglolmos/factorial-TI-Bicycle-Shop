@@ -9,7 +9,7 @@ class Name {
     {
         $this->setName($name);
     }
-    public function getName(): string
+    public function getNameValue(): string
     {
         return $this->name;
     }

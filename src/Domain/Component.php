@@ -14,23 +14,23 @@ class Component
 
     private bool $is_in_stock;
 
-    public function __construct(string $name, $price) {
-        $this->name = new Name($name);
-        $this->id = new Id($this->name->getName());
-        $this->price = new Price($price);
+    public function __construct(Name $name, Price $price) {
+        $this->name = $name;
+        $this->id = new Id($this->name->getNameValue());
+        $this->price = $price;
         $this->is_in_stock = true;
     }
 
-    public function getId() {
-        return $this->id->getValue();
+    public function getId(): Id {
+        return $this->id;
     }
 
-    public function getName(): string{
-        return $this->name->getName();
+    public function getName(): Name {
+        return $this->name;
     }
 
-    public function getPrice(): int {
-        return $this->price->getValue();
+    public function getPrice(): Price {
+        return $this->price;
     }
 
     public function isInStock(): bool {
