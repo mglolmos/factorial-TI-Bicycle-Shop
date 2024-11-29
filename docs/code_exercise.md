@@ -8,14 +8,14 @@ To download the project:
 git pull git@github.com:mglolmos/factorial-TI-Bicycle-Shop.git
 ```
 
-## Set up and running the code
+## Set up and running the code 🚀
 
 To set up and run the code:
 ```
 make up
 ```
 
-## Run test
+## Run test ✅
 To run the test:
 ```
 make test
