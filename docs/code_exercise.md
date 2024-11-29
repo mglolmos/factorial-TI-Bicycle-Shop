@@ -28,6 +28,8 @@ make test
 * Nginx 1.27: Latest stable version.
 
 ## Code description ([🔗](code_description.md))
+> ℹ️ **Information:** The code exercise does not include any domain events. In a real environment, we should send domain events for each use case whenever we create, update, or delete a Product or Product Order. This ensures that information is available to the rest of the company and that all changes are properly tracked.
+
 
 ### Domain ([🔗](code_description/domain.md))
 
