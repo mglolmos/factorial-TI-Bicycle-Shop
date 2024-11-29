@@ -22,20 +22,22 @@ class ProductOrder {
         $this->componentsSelected = $componentsSelected;
     }
 
-    public function checkIsACorrectOrder()
+    public function checkIfOrderHasInvalidComponents(): void
     {
         try {
             foreach ($this->componentsSelected as $collection_id => $component_id) {
                 $component = $this->product->getComponent(new Id($collection_id), new Id($component_id));
+                if (!$component->isInStock()) {
+                    throw new InvalidProductOrderException("Component is not in stock CollectionId:'{$collection_id}' in ComponentId: '{$component_id}'");
+                }
                 foreach ($this->componentsSelected as $collection_id_target => $component_id_target) {
                     if (!$component->isCompatibleWith(new Id($collection_id_target), new Id($component_id_target))) {
-                        return false;
+                        throw new InvalidProductOrderException("ProductOrder with incompatible components");
                     }
                 }
             }
-            return true;
         } catch (CollectionInvalidException|ComponentInvalidException $exception) {
-            return false;
+            throw new InvalidProductOrderException($exception->getMessage());
         }
     }
 
