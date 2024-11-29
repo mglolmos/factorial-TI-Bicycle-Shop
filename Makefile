@@ -5,11 +5,11 @@ up :  pull docker_up composer_install
 pull :
 	docker-compose pull
 
-composer_install :
-	docker-compose exec php composer install
-
 docker_up :
 	docker-compose up -d
+
+composer_install :
+	docker-compose exec php composer install
 
 down :
 	docker-compose down
