@@ -49,23 +49,18 @@ class ProductOrderTest extends TestCase
         // Arrange
         $product = $this->createMock(Product::class);
         $component1 = $this->createMock(Component::class);
-        $component2 = $this->createMock(Component::class);
 
         // Mocking component methods
         $component1->method('isInStock')->willReturn(false); // Out of stock
         $component1->method('isCompatibleWith')->willReturn(true);
         $component1->method('getPrice')->willReturn(Price::fromInt(100));
-        $component2->method('isInStock')->willReturn(true);
-        $component2->method('isCompatibleWith')->willReturn(true);
-        $component2->method('getPrice')->willReturn(Price::fromInt(150));
 
         // Mocking product methods
-        $product->method('getComponent')->willReturn($component1, $component2);
+        $product->method('getComponent')->willReturn($component1);
 
         // Create an order with invalid components
         $componentsSelected = [
             'collection1' => 'component1',
-            'collection2' => 'component2',
         ];
 
         $order = new ProductOrder($product, $componentsSelected);
@@ -81,23 +76,18 @@ class ProductOrderTest extends TestCase
         // Arrange
         $product = $this->createMock(Product::class);
         $component1 = $this->createMock(Component::class);
-        $component2 = $this->createMock(Component::class);
 
         // Mocking component methods
         $component1->method('isInStock')->willReturn(true);
         $component1->method('isCompatibleWith')->willReturn(false); // Incompatible
         $component1->method('getPrice')->willReturn(Price::fromInt(100));
-        $component2->method('isInStock')->willReturn(true);
-        $component2->method('isCompatibleWith')->willReturn(true);
-        $component2->method('getPrice')->willReturn(Price::fromInt(150));
 
         // Mocking product methods
-        $product->method('getComponent')->willReturn($component1, $component2);
+        $product->method('getComponent')->willReturn($component1);
 
         // Create an order with invalid components
         $componentsSelected = [
             'collection1' => 'component1',
-            'collection2' => 'component2',
         ];
 
         $order = new ProductOrder($product, $componentsSelected);
