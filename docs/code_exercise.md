@@ -27,23 +27,27 @@ make test
 * Redis 7.4: Latest stable version.
 * Nginx 1.27: Latest stable version.
 
-## Domain
-The code has been structured according to the DDD framework. The core domain is based on:
-* Product: An entity that represents a catalog product, such as bicycles, skis, roller skates, etc.
+## Code description ([🔗](code_description.md))
+
+### Domain ([🔗](code_description/domain.md))
+
+The code has been structured according to the DDD framework. The core domain is based on this main entities:
+* Product: Entity that represents a catalog product, such as bicycles, skis, roller skates, etc.
 * Collection: A set of components like frame type, frame finish, wheels, rim color, etc.
 * Component: Each option within a collection, including full-suspension, diamond, matte, red, black, etc.
 
-* Product Order: An entity that represents a specific product order. It checks if an order is correct and determines the final price based on the selected components and product information.
+* Product Order: Entity that represents a specific product order. It checks if an order is correct and determines the final price based on the selected components and product information.
 
-## Use Cases
+### Use Cases ([🔗](code_description/use_cases.md))
+
 All use cases must be located in the `Application/UseCases` folder. They can be grouped by type or domain element, depending on the criteria.
 
-## Controller
+### API ([🔗](code_description/api.md))
 All controllers are located in the `Infrastructure/Http` folder. The code is structured to be independent of the input, enabling it to work with both controllers and asynchronous commands. The unique logic that will change is within the Infrastructure folder.
 
-## DB
+### DB ([🔗](code_description/db.md))
 A documented Redis database has been used for testing and exercise purposes. If the project goes into production, we can determine which type of database would be best based on the context. The code is designed to allow for changes to the database without altering the core model; only the infrastructure component needs to be modified.
 
-## Test
+### Test
 All tests can be run by executing `make test`. Alternatively, you can run just the unit tests with `test-unit` or the E2E tests with `test-e2e`.
 
