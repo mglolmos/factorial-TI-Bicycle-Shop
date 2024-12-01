@@ -17,7 +17,7 @@ class ProductTest extends TestCase
         $this->client = new Client(['headers' => ['Content-Type' => 'application/json']]);
     }
 
-    public function testCreateAndGetProduct(): void
+    public function testCreateGetAndDeleteProduct(): void
     {
         $product_id = Uuid::generateToString();
         $product_name = 'Product Test' . $product_id;
@@ -35,6 +35,17 @@ class ProductTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals($product_id, self::getOutputFromResponse($response, 'product_id'));
         $this->assertEquals($product_name, self::getOutputFromResponse($response, 'name'));
+
+        $response = $this->client->delete('http://nginx/product/' . $product_id);
+        $this->assertEquals(204, $response->getStatusCode());
+
+        try {
+             $this->client->get('http://nginx/product/' . $product_id);
+        } catch (RequestException $exception) {
+            $this->assertEquals(404, $exception->getResponse()->getStatusCode());
+            return;
+        }
+        $this->fail('Expected a 404 Not Found response, but the request was successful.');
     }
 
     public function testProductNotFoundShouldAnswer404(): void

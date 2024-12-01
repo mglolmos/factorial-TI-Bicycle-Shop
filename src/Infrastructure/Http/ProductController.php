@@ -7,6 +7,8 @@ use App\Application\UseCases\AddComponentRequest;
 use App\Application\UseCases\AddComponentUseCase;
 use App\Application\UseCases\CreateProductRequest;
 use App\Application\UseCases\CreateProductUseCase;
+use App\Application\UseCases\DeleteProductRequest;
+use App\Application\UseCases\DeleteProductUseCase;
 use App\Application\UseCases\GetCollectionRequest;
 use App\Application\UseCases\GetCollectionUseCase;
 use App\Application\UseCases\GetComponentRequest;
@@ -31,6 +33,8 @@ class ProductController extends AbstractController
 
     private $getProductUseCase;
 
+    private $deleteProductUseCase;
+
     private $addCollectionUseCase;
 
     private $getCollectionUseCase;
@@ -40,6 +44,7 @@ class ProductController extends AbstractController
     private $getComponentUseCase;
     public function __construct(CreateProductUseCase $createProductUseCase,
                                 GetProductUseCase $getProductUseCase,
+                                DeleteProductUseCase $deleteProductUseCase,
                                 AddCollectionUseCase $addCollectionUseCase,
                                 GetCollectionUseCase $getCollectionUseCase,
                                 AddComponentUseCase $addComponentUseCase,
@@ -47,6 +52,7 @@ class ProductController extends AbstractController
     {
         $this->createProductUseCase = $createProductUseCase;
         $this->getProductUseCase = $getProductUseCase;
+        $this->deleteProductUseCase = $deleteProductUseCase;
         $this->addCollectionUseCase = $addCollectionUseCase;
         $this->getCollectionUseCase = $getCollectionUseCase;
         $this->addComponentUseCase = $addComponentUseCase;
@@ -73,6 +79,20 @@ class ProductController extends AbstractController
             $product_response = $this->getProductUseCase->getProduct($product_request);
 
             return new Response(json_encode($product_response), status: Response::HTTP_OK);
+        } catch (ProductNotFoundException) {
+            return new Response(status: Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    #[Route('/product/{product_id}', methods: ['DELETE'])]
+    public function deleteProduct(Request $request, $product_id): Response
+    {
+        try {
+            $product_request = new DeleteProductRequest($product_id);
+
+            $this->deleteProductUseCase->deleteProduct($product_request);
+
+            return new Response(status: Response::HTTP_NO_CONTENT);
         } catch (ProductNotFoundException) {
             return new Response(status: Response::HTTP_NOT_FOUND);
         }

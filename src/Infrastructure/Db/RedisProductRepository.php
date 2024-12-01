@@ -37,4 +37,9 @@ class RedisProductRepository implements ProductRepository
     {
         $this->client->set(self::PREFIX . $product->getId()->getValue(), serialize($product));
     }
+
+    public function delete(Uuid $product_id)
+    {
+        $this->client->del(self::PREFIX . $product_id->getValue());
+    }
 }
