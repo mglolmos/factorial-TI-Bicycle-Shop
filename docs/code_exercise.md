@@ -21,6 +21,12 @@ To run the test:
 make test
 ```
 
+## Stop ⏹️
+To stop & clean all containers:
+```
+make down
+```
+
 ## Dependencies
 * PHP 8.3: I have chosen the latest version with the longest active support. PHP 8.4 was not a candidate in my opinion, as it was released only a few days ago. 
 * Symfony 6.4: A long-term support version of Symfony.
