@@ -6,6 +6,7 @@
 To download the project:
 ```
 git clone git@github.com:mglolmos/factorial-TI-Bicycle-Shop.git
+cd factorial-TI-Bicycle-Shop
 ```
 
 ## Set up and running the code 🚀
