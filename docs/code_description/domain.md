@@ -1,13 +1,13 @@
 # Domain
 All of the entities are expected to expand in the future. For example:
 * Name could include more restrictions, such as special characters.
-* Product can have additional fields, like Description, which would require creating another entity called LongText or something similar.
+* Product can have additional fields, like Description, which would require creating another entity called LongText or something similar; image, etc
 * Price could accept currency to make the system multi-currency compatible.
 
 ## Product
 Entity that represents a catalog product, such as bicycles, skis, roller skates, etc.
 
-* UUid: This represents the identifier of the product. It should be of UUID type and defined for the client to avoid possible collisions. It should not depend on the infrastructure to create the product.
+* Uuid: This represents the identifier of the product. It should be of UUID type and defined for the client to avoid possible collisions. It should not depend on the infrastructure to create the product.
 
 * Name: Indicate the product's name.
 
@@ -37,7 +37,7 @@ Entity that represents each option within a collection like full-suspension, dia
 ## Product Order
 Entity that represents a specific product order. It checks if an order is correct and determines the final price based on the selected components and product information.
 
-* UUid: This represents the identifier of the product order. It should be of UUID type and defined for the client to avoid possible collisions. It should not depend on the infrastructure to create the product order.
+* Uuid: This represents the identifier of the product order. It should be of UUID type and defined for the client to avoid possible collisions. It should not depend on the infrastructure to create the product order.
 
 * Product: The Product entity represents the product catalog selected for the user in the order.
 
