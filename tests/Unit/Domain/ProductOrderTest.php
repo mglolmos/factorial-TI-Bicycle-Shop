@@ -39,9 +39,10 @@ class ProductOrderTest extends TestCase
         $order = new ProductOrder($product, $componentsSelected);
 
         // Act
-        $order->checkIfOrderHasInvalidComponents();
+        $result = $order->checkIfOrderHasInvalidComponents();
 
-        $this->assertTrue(true);
+        // Assert
+        $this->assertTrue($result);
     }
 
     public function testInvalidOrderDueComponentOutOfStock()
@@ -65,9 +66,11 @@ class ProductOrderTest extends TestCase
 
         $order = new ProductOrder($product, $componentsSelected);
 
-        // Act & Assert
-        $this->expectException(InvalidProductOrderException::class);
-        $order->checkIfOrderHasInvalidComponents();
+        // Act
+        $result = $order->checkIfOrderHasInvalidComponents();
+
+        // Assert
+        $this->assertFalse($result);
     }
 
 
@@ -92,9 +95,11 @@ class ProductOrderTest extends TestCase
 
         $order = new ProductOrder($product, $componentsSelected);
 
-        // Act & Assert
-        $this->expectException(InvalidProductOrderException::class);
-        $order->checkIfOrderHasInvalidComponents();
+        // Act
+        $result = $order->checkIfOrderHasInvalidComponents();
+
+        // Assert
+        $this->assertFalse($result);
     }
 
     public function testGetPrice()
